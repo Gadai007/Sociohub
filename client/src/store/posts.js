@@ -5,6 +5,7 @@ const slice = createSlice({
     name: 'posts',
     initialState: {
         posts: [],
+        reload: false,
         myPosts: [],
         post: '',
         loading: false,
@@ -27,6 +28,14 @@ const slice = createSlice({
             posts.loading = false
             posts.myPosts = action.payload
         },
+        likePost: (posts, action) => {
+            posts.loading = false
+            posts.reload = !posts.reload
+        },
+        unlikePost: (posts, action) => {
+            posts.loading = false
+            posts.reload = !posts.reload
+        },
         addPostFailed: (posts, action) => {
             posts.loading = false
             posts.error = action.payload
@@ -36,7 +45,7 @@ const slice = createSlice({
 
 export default slice.reducer
 
-const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts } = slice.actions
+const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost} = slice.actions
 
 let id;
 
@@ -71,5 +80,21 @@ export const myPostsLoad = () => apiCallBegan({
     method: 'get',
     onStart: requestStarted.type,
     onSuccess: loadMyPosts.type,
+    onError: addPostFailed.type
+})
+
+export const postLiked = (postId) => apiCallBegan({
+    url: `/api/postlike/${postId}/${id}`,
+    method: 'put',
+    onStart: requestStarted.type,
+    onSuccess: likePost.type,
+    onError: addPostFailed.type
+})
+
+export const postUnliked = (postId) => apiCallBegan({
+    url: `/api/postunlike/${postId}/${id}`,
+    method: 'put',
+    onStart: requestStarted.type,
+    onSuccess: unlikePost.type,
     onError: addPostFailed.type
 })

@@ -36,8 +36,8 @@ const Profile = () => {
             {posts.length !== 0 ? (
               posts.map((post) => {
                 return (
-                  <Fragment>
-                    <div className="col m4 s12 offset-s2" key={post._id} >
+                  <Fragment key={post._id} >
+                    <div className="col m4 s12 offset-s2" >
                       <img
                         src={post.photo}
                         alt="profile gallery"
