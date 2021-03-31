@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { postsLoad, postLiked, postUnliked } from "../store/posts";
+import { postsLoad, postLiked, postUnliked, postComment } from "../store/posts";
+import M from "materialize-css";
 
 const Home = () => {
-
-  const reload = useSelector(state => state.entities.posts.reload)
+  const reload = useSelector((state) => state.entities.posts.reload);
   const userId = JSON.parse(localStorage.getItem("jwt")).user.id;
   const posts = useSelector((state) => state.entities.posts.posts);
   const dispatch = useDispatch();
@@ -12,7 +12,17 @@ const Home = () => {
   useEffect(() => {
     dispatch(postsLoad());
   }, [reload]);
-  
+
+  const sumbitHandler = (postId, text) => {
+    if (text === "") {
+      return M.toast({
+        html: "comment cannot be empty",
+        classes: "#b71c1c red darken-4",
+      });
+    }
+    dispatch(postComment(postId, text));
+  };
+
   return (
     <Fragment>
       <div className="container">
@@ -23,7 +33,7 @@ const Home = () => {
                 return (
                   <Fragment key={post._id}>
                     <div className="card #ff80ab pink accent-1">
-                      <div className="card-content white-text">
+                      <div className="card-content white-text hoverable">
                         <span className="card-title">{post.postedBy.name}</span>
                         <div className="row">
                           <div className="col m12">
@@ -35,7 +45,7 @@ const Home = () => {
                                 <i
                                   className="medium material-icons red-text"
                                   onClick={() => {
-                                    dispatch(postUnliked(post._id))
+                                    dispatch(postUnliked(post._id));
                                   }}
                                 >
                                   favorite
@@ -44,7 +54,7 @@ const Home = () => {
                                 <i
                                   className="medium material-icons"
                                   onClick={() => {
-                                    dispatch(postLiked(post._id))
+                                    dispatch(postLiked(post._id));
                                   }}
                                 >
                                   favorite
@@ -62,14 +72,39 @@ const Home = () => {
                             <h6>{post.body}</h6>
                           </div>
                           <div className="comment col s12">
-                            <input
-                              placeholder="add your comment"
-                              name="text"
-                              //   value={}
-                              //   onChange={}
-                              type="text"
-                              className="validate"
-                            />
+                            <div className="row">
+                              <form
+                                onSubmit={(event) => {
+                                  event.preventDefault();
+                                  sumbitHandler(
+                                    post._id,
+                                    event.target[0].value
+                                  );
+                                  event.target[0].value = "";
+                                }}
+                              >
+                                <div className="col s10">
+                                  <input
+                                    placeholder="add your comment"
+                                    name="text"
+                                    type="text"
+                                    className="validate"
+                                  />
+                                </div>
+                              </form>
+                            </div>
+                            {post.comments.map((comment) => {
+                              return (
+                                <div className="row">
+                                  <div className="col s4" style={{fontWeight: 'bold'}}>
+                                    {comment.postedBy.name}
+                                  </div>
+                                  <div className="col s8 center-align">
+                                    {comment.text}
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>

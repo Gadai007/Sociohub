@@ -1,6 +1,6 @@
 const route = require('express').Router()
 const { isSignin, isAuthenticated } = require('../controllers/auth')
-const { getPostById, createPost, getAllPosts, getAllUserPosts, postLike, postUnlike, postComment } = require('../controllers/post')
+const { getPostById, createPost, getAllPosts, getAllUserPosts, postLike, postUnlike, postComment, postDelete } = require('../controllers/post')
 const { getUserById } = require('../controllers/user')
 
 route.param('id', getUserById)
@@ -13,5 +13,6 @@ route.post('/createpost/:id', isSignin, isAuthenticated, createPost)
 route.put('/postlike/:postId/:id', isSignin, isAuthenticated, postLike)
 route.put('/postunlike/:postId/:id', isSignin, isAuthenticated, postUnlike)
 route.put('/postcomment/:postId/:id', isSignin, isAuthenticated, postComment)
+route.delete('/postdelete/:postId/:id', isSignin, isAuthenticated, postDelete)
 
 module.exports = route

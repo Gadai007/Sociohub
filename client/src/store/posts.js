@@ -36,6 +36,10 @@ const slice = createSlice({
             posts.loading = false
             posts.reload = !posts.reload
         },
+        commentPost: (posts, action) => {
+            posts.loading = false
+            posts.reload = !posts.reload
+        },
         addPostFailed: (posts, action) => {
             posts.loading = false
             posts.error = action.payload
@@ -45,17 +49,16 @@ const slice = createSlice({
 
 export default slice.reducer
 
-const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost} = slice.actions
+const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost, commentPost } = slice.actions
 
 let id;
 
-if(localStorage.getItem('jwt')){
+if (localStorage.getItem('jwt')) {
     id = JSON.parse(localStorage.getItem('jwt')).user.id
-}else{
+} else {
     id = ''
 }
 
-// const id = JSON.parse(localStorage.getItem('jwt')).user.id
 
 export const postAdd = ({ title, body, photo }) => apiCallBegan({
     url: `/api/createpost/${id}`,
@@ -96,5 +99,14 @@ export const postUnliked = (postId) => apiCallBegan({
     method: 'put',
     onStart: requestStarted.type,
     onSuccess: unlikePost.type,
+    onError: addPostFailed.type
+})
+
+export const postComment = (postId, text) => apiCallBegan({
+    url: `/api/postcomment/${postId}/${id}`,
+    method: 'put',
+    data: JSON.stringify({ text }),
+    onStart: requestStarted.type,
+    onSuccess: commentPost.type,
     onError: addPostFailed.type
 })

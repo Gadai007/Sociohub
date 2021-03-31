@@ -44,12 +44,27 @@ body{
   width: 200px;
 }
 
-.gallery{
+.img-container{
+  position: relative;
   height: 200px;
   width: 200px;
+}
+
+.gallery{
+  display: block;
+  width: 100%;
+}
+
+.img-icon{
+ position: absolute;
+ top:0;
 }
 
 .image{
   width: 100%;
   margin: auto;
+}
+
+.comment{
+  margin-top: 16px;
 }

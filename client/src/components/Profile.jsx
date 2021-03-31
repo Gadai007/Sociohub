@@ -37,13 +37,14 @@ const Profile = () => {
               posts.map((post) => {
                 return (
                   <Fragment key={post._id} >
-                    <div className="col m4 s12 offset-s2" >
+                    <div className="col m4 s12 offset-s2 img-container" >
                       <img
                         src={post.photo}
                         alt="profile gallery"
                         className="gallery"
                         style={{border: '2px solid #f875aa'}}
                       />
+                      <i class="small material-icons img-icon">delete</i>
                     </div>
                   </Fragment>
                 );
