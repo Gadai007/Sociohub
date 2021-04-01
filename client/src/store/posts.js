@@ -24,7 +24,6 @@ const slice = createSlice({
             posts.posts = action.payload
         },
         loadMyPosts: (posts, action) => {
-            console.log(action.payload)
             posts.loading = false
             posts.myPosts = action.payload
         },
@@ -40,6 +39,11 @@ const slice = createSlice({
             posts.loading = false
             posts.reload = !posts.reload
         },
+        deletePost: (posts, action) => {
+            const { _id } = action.payload;
+            const index = posts.myPosts.findIndex((post) => post._id === _id);
+            posts.myPosts.splice(index, 1);
+        },
         addPostFailed: (posts, action) => {
             posts.loading = false
             posts.error = action.payload
@@ -49,7 +53,7 @@ const slice = createSlice({
 
 export default slice.reducer
 
-const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost, commentPost } = slice.actions
+const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost, commentPost, deletePost } = slice.actions
 
 let id;
 
@@ -108,5 +112,13 @@ export const postComment = (postId, text) => apiCallBegan({
     data: JSON.stringify({ text }),
     onStart: requestStarted.type,
     onSuccess: commentPost.type,
+    onError: addPostFailed.type
+})
+
+export const postDelete = (postId) => apiCallBegan({
+    url: `/api/postdelete/${postId}/${id}`,
+    method: 'delete',
+    onStart: requestStarted.type,
+    onSuccess: deletePost.type,
     onError: addPostFailed.type
 })

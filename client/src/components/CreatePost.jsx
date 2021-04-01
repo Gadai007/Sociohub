@@ -44,6 +44,9 @@ const CreatePost = (props) => {
 
   const onSubmitHandler =async (event) => {
     event.preventDefault();
+    if(post.photo === '' || post.title === '' || post.body === ''){
+      return M.toast({ html: 'please complete all fields', classes: '#b71c1c red darken-4'})
+    }
     const data = new FormData();
     data.append("file", post.photo);
     data.append("upload_preset", "sociohub");

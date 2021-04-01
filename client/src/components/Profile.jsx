@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { myPostsLoad } from "../store/posts";
+import { myPostsLoad, postDelete } from "../store/posts";
 
 const Profile = () => {
   const name = useSelector((state) => state.entities.auth.token.user.name);
@@ -10,6 +10,7 @@ const Profile = () => {
   useEffect(() => {
     dispatch(myPostsLoad());
   }, []);
+
 
   return (
     <div className="container profile">
@@ -44,7 +45,7 @@ const Profile = () => {
                         className="gallery"
                         style={{border: '2px solid #f875aa'}}
                       />
-                      <i class="small material-icons img-icon">delete</i>
+                      <i className="small material-icons img-icon" onClick={() => dispatch(postDelete(post._id))}>delete</i>
                     </div>
                   </Fragment>
                 );

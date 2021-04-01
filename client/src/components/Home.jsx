@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { postsLoad, postLiked, postUnliked, postComment } from "../store/posts";
 import M from "materialize-css";
