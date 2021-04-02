@@ -1,16 +1,19 @@
 import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { myPostsLoad, postDelete } from "../store/posts";
+import { useParams } from 'react-router-dom'
+import { userProfileLoad } from "../store/userProfile";
 
-const Profile = () => {
-  const name = useSelector((state) => state.entities.auth.token.user.name);
-  const posts = useSelector((state) => state.entities.posts.myPosts);
-  const dispatch = useDispatch();
+const UserProfile = () => {
+
+  const { profileId } = useParams()
+  const dispatch = useDispatch()
+
+  const user = useSelector(state => state.entities.userProfile.user)
+  const posts = useSelector(state => state.entities.userProfile.posts)
 
   useEffect(() => {
-    dispatch(myPostsLoad());
-  }, []);
-
+    dispatch(userProfileLoad(profileId))
+  }, [])
 
   return (
     <div className="container profile">
@@ -24,8 +27,9 @@ const Profile = () => {
                 className="profile-photo"
               />
             </div>
-            <div className="col m8 s12">
-              <h2 className="center-align">{name}</h2>
+            <div className="col m8 s12 ">
+              <h2 className="center-align">{user.name}</h2>
+              <h3 className="center-align">{user.email}</h3>
               <div className="row center-align">
                 <div className="col m4 s4">60 posts</div>
                 <div className="col m4 s4">100 followers</div>
@@ -37,21 +41,22 @@ const Profile = () => {
             {posts.length !== 0 ? (
               posts.map((post) => {
                 return (
-                  <Fragment key={post._id} >
-                    <div className="col m4 s12 img-container" >
+                  <Fragment key={post._id}>
+                    <div className="col m4 s12 img-container">
                       <img
                         src={post.photo}
                         alt="profile gallery"
                         className="gallery"
-                        style={{border: '2px solid #f875aa'}}
+                        style={{ border: "2px solid #f875aa" }}
                       />
-                      <i className="small material-icons img-icon" onClick={() => dispatch(postDelete(post._id))}>delete</i>
                     </div>
                   </Fragment>
                 );
               })
             ) : (
-              <h1 className="center-align">YOU HAVEN'T POSTED ANYTHING</h1>
+              <h1 className="center-align">
+                {user.name} HAVEN'T POSTED ANYTHING
+              </h1>
             )}
           </div>
         </div>
@@ -60,4 +65,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

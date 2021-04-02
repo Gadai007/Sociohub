@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { ObjectId } = mongoose.Schema.Types
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -17,7 +18,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
 
-    }
+    },followers: [{
+        type: ObjectId,
+        ref: 'user'
+    }],
+    following: [{
+        type: ObjectId,
+        ref: 'user'
+    }]
+
 }, { timestamps: true})
 
 userSchema.pre('save', async function (next) {

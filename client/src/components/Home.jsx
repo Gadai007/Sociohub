@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { postsLoad, postLiked, postUnliked, postComment } from "../store/posts";
 import M from "materialize-css";
 
@@ -34,7 +35,17 @@ const Home = () => {
                   <Fragment key={post._id}>
                     <div className="card #ff80ab pink accent-1">
                       <div className="card-content white-text hoverable">
-                        <span className="card-title">{post.postedBy.name}</span>
+                        {userId !== post.postedBy._id ? (
+                          <Link to={`/profile/${post.postedBy._id}`} style={{ color: '#FFF' }}>
+                            <span className="card-title">
+                              {post.postedBy.name}
+                            </span>
+                          </Link>
+                        ) : (
+                          <span className="card-title">
+                            {post.postedBy.name}
+                          </span>
+                        )}
                         <div className="row">
                           <div className="col m12">
                             <img src={post.photo} alt="img" className="image" />
@@ -96,7 +107,10 @@ const Home = () => {
                             {post.comments.map((comment) => {
                               return (
                                 <div className="row">
-                                  <div className="col s4" style={{fontWeight: 'bold'}}>
+                                  <div
+                                    className="col s4"
+                                    style={{ fontWeight: "bold" }}
+                                  >
                                     {comment.postedBy.name}
                                   </div>
                                   <div className="col s8 center-align">
