@@ -13,6 +13,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(postsLoad());
   }, [reload]);
+  
 
   const sumbitHandler = (postId, text) => {
     if (text === "") {
@@ -106,7 +107,7 @@ const Home = () => {
                             </div>
                             {post.comments.map((comment) => {
                               return (
-                                <div className="row">
+                                <div className="row" key={comment._id}>
                                   <div
                                     className="col s4"
                                     style={{ fontWeight: "bold" }}

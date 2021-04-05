@@ -52,7 +52,8 @@ body{
 
 .gallery{
   display: block;
-  width: 100%;
+  width: 170px;
+  height: 120px;
 }
 
 .img-icon{

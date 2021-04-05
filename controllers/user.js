@@ -41,11 +41,11 @@ const getAUser = async (req, res) => {
 
 const followUser = async (req, res) => {
     try {
-        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $push: { followers: req.profile._id } }, { new: true })
+        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $push: { followers: req.profile._id } }, { new: true, useFindAndModify: false })
         if (followUser) {
-            const followingUser = await User.findByIdAndUpdate(req.profile._id, { $push: { following: req.params.profileId } }, { new: true })
+            const followingUser = await User.findByIdAndUpdate(req.profile._id, { $push: { following: req.params.profileId } }, { new: true , useFindAndModify: false})
             if(followingUser){
-                res.status(200).json(followingUser)
+                res.status(200).json(followUser)
             }else{
                 res.status(400).json({ error: 'failed to following a user'})
             }
@@ -64,7 +64,7 @@ const unFollowUser = async (req, res) => {
         if (followUser) {
             const followingUser = await User.findByIdAndUpdate(req.profile._id, { $pull: { following: req.params.profileId } }, { new: true })
             if(followingUser){
-                res.status(200).json(followingUser)
+                res.status(200).json(followUser)
             }else{
                 res.status(400).json({ error: 'failed to following a user'})
             }
