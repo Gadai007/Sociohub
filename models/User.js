@@ -14,11 +14,18 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    pic:{
+        type: String,
+        default: 'https://res.cloudinary.com/gadai007/image/upload/v1618826664/l60Hf_ufvkee.png',
+    },
     password: {
         type: String,
         required: true,
 
-    },followers: [{
+    },
+    resetToken: String,
+    expiresIn: Date,
+    followers: [{
         type: ObjectId,
         ref: 'user'
     }],

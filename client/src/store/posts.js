@@ -5,6 +5,7 @@ const slice = createSlice({
     name: 'posts',
     initialState: {
         posts: [],
+        followingPosts: [],
         reload: false,
         myPosts: [],
         post: '',
@@ -22,6 +23,10 @@ const slice = createSlice({
         loadPosts: (posts, action) => {
             posts.loading = false
             posts.posts = action.payload
+        },
+        loadFollowingPost : (posts, action) => {
+            posts.loading = false
+            posts.followingPosts = action.payload
         },
         loadMyPosts: (posts, action) => {
             posts.loading = false
@@ -53,7 +58,7 @@ const slice = createSlice({
 
 export default slice.reducer
 
-const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost, commentPost, deletePost } = slice.actions
+const { requestStarted, addPost, addPostFailed, loadPosts, loadMyPosts, likePost, unlikePost, commentPost, deletePost, loadFollowingPost } = slice.actions
 
 let id;
 
@@ -78,6 +83,14 @@ export const postsLoad = () => apiCallBegan({
     method: 'get',
     onStart: requestStarted.type,
     onSuccess: loadPosts.type,
+    onError: addPostFailed.type
+})
+
+export const postsFollowing = () => apiCallBegan({
+    url: `/api/getallfollowingposts/${id}`,
+    method: 'get',
+    onStart: requestStarted.type,
+    onSuccess: loadFollowingPost.type,
     onError: addPostFailed.type
 })
 

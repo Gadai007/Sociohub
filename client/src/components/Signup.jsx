@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import axios from "axios";
 import M from "materialize-css";
 import { userSignUp } from "../store/auth";
 
@@ -9,6 +10,7 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
+    pic: "",
   });
 
   const error = useSelector((state) => state.entities.auth.error);
@@ -22,22 +24,53 @@ const Signup = () => {
   }, [error]);
 
   useEffect(() => {
-    if(name){
-      M.toast({ html: `${name} please signin`, classes: "#388e3c green darken-2" });
+    if (name) {
+      M.toast({
+        html: `${name} please signin`,
+        classes: "#388e3c green darken-2",
+      });
     }
-  }, [name])
-
+  }, [name]);
 
   const dispatch = useDispatch();
 
   const onChangeHandler = (event) => {
-    const { name, value } = event.target;
-    setValues({ ...values, [name]: value });
+    let value = "";
+    if (event.target.name === "pic") {
+      value = event.target.files[0];
+    } else {
+      value = event.target.value;
+    }
+
+    setValues({ ...values, [event.target.name]: value });
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    dispatch(userSignUp(values));
+    if(values.pic === ''){
+      return M.toast({ html: 'upload an image', classes: '#b71c1c red darken-4'})
+    }
+    const data = new FormData();
+    data.append("file", values.pic);
+    data.append("upload_preset", "sociohub");
+    data.append("cloud_name", "gadai007");
+    const response = await axios.post(
+      "https://api.cloudinary.com/v1_1/gadai007/image/upload",
+      data
+    );
+    const newValues = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      pic: response.data.url,
+    };
+    dispatch(userSignUp(newValues));
+    setValues({
+      name: "",
+      email: "",
+      password: "",
+      pic: "",
+    });
   };
 
   const reload = () => {
@@ -96,6 +129,20 @@ const Signup = () => {
                     <label htmlFor="password" className="active">
                       <h6>Password</h6>
                     </label>
+                  </div>
+                  <div className="file-field input-field col m12">
+                    <div className="waves-effect waves-light btn #c51162 pink accent-4">
+                      <span>File</span>
+                      <input
+                        type="file"
+                        accept="image"
+                        name="pic"
+                        onChange={onChangeHandler}
+                      />
+                    </div>
+                    <div className="file-path-wrapper">
+                      <input className="file-path validate" type="text" />
+                    </div>
                   </div>
                   <div className="input-field col m12">
                     <button

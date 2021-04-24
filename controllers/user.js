@@ -41,7 +41,7 @@ const getAUser = async (req, res) => {
 
 const followUser = async (req, res) => {
     try {
-        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $push: { followers: req.profile._id } }, { new: true, useFindAndModify: false })
+        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $push: { followers: req.profile._id } }, { new: true, useFindAndModify: false }).select('-password')
         if (followUser) {
             const followingUser = await User.findByIdAndUpdate(req.profile._id, { $push: { following: req.params.profileId } }, { new: true , useFindAndModify: false})
             if(followingUser){
@@ -60,7 +60,7 @@ const followUser = async (req, res) => {
 
 const unFollowUser = async (req, res) => {
     try {
-        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $pull: { followers: req.profile._id } }, { new: true })
+        const followUser = await User.findByIdAndUpdate(req.params.profileId, { $pull: { followers: req.profile._id } }, { new: true }).select('-password')
         if (followUser) {
             const followingUser = await User.findByIdAndUpdate(req.profile._id, { $pull: { following: req.params.profileId } }, { new: true })
             if(followingUser){

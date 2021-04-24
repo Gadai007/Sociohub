@@ -36,10 +36,10 @@ export default slice.reducer
 
 export const { signup, signin, signout, signupfailed, signinfailed } = slice.actions
 
-export const userSignUp = ({ name, email, password }) => apiCallBegan({
+export const userSignUp = ({ name, email, password, pic }) => apiCallBegan({
     url: `/api/signup`,
     method: 'post',
-    data: JSON.stringify({ name, email, password }),
+    data: JSON.stringify({ name, email, password, pic }),
     onSuccess: signup.type,
     onError: signupfailed.type
 })

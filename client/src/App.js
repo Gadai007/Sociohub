@@ -11,7 +11,10 @@ import Home from './components/Home'
 import CreatePost from './components/CreatePost'
 import Error from './components/Error'
 import UserProfile from './components/UserProfile'
+import FollowingPosts from './components/FollowingPosts'
+import Reset from './components/Reset'
 import './App.css';
+import NewPassword from './components/NewPassword'
 
 const store = configureStore()
 
@@ -23,8 +26,11 @@ function App() {
       <Navbar />
       <Switch>
         <PrivateRoute exact path='/' component={Home}/>
+        <PrivateRoute exact path='/followingpost' component={FollowingPosts}/>
         <Route exact path='/signup' component={Signup}/>
         <Route exact path='/signin' component={Signin}/>
+        <Route exact path='/reset' component={Reset}/>
+        <Route exact path='/reset/:token' component={NewPassword}/>
         <PrivateRoute exact path='/profile' component={Profile}/>
         <PrivateRoute exact path='/profile/:profileId' component={UserProfile}/>
         <PrivateRoute exact path='/createpost' component={CreatePost}/>

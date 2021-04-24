@@ -4,17 +4,15 @@ import M from "materialize-css";
 import { Link, Redirect } from "react-router-dom";
 import { userSignIn } from "../store/auth";
 
-
 const Signin = (props) => {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
 
-
   const error = useSelector((state) => state.entities.auth.error);
-  const redirect = useSelector(state=> state.entities.auth.redirect)
-  const token = useSelector(state=> state.entities.auth.token)
+  const redirect = useSelector((state) => state.entities.auth.redirect);
+  const token = useSelector((state) => state.entities.auth.token);
 
   useEffect(() => {
     if (error !== "") {
@@ -35,20 +33,18 @@ const Signin = (props) => {
   };
 
   const reload = () => {
-    if(token){
-      return <Redirect to='/profile' />
-    }else{
-      <Redirect to='/' />
+    if (token) {
+      return <Redirect to="/profile" />;
+    } else {
+      <Redirect to="/" />;
     }
-  }
+  };
   useEffect(() => {
-    console.log(redirect)
-    if(redirect){
-      window.location.assign('/profile')
+    if (redirect) {
+      window.location.assign("/profile");
     }
-  }, [redirect])
+  }, [redirect]);
 
-  
   return (
     <div className="container">
       <div className="row">
@@ -95,9 +91,18 @@ const Signin = (props) => {
                   </div>
                 </div>
               </form>
-              <Link className="grey-text text-darken-2" to="/signup">
-                Don't have an account ?
-              </Link>
+              <div className="row">
+                <div className="col m6">
+                  <Link className="grey-text text-darken-2" to="/signup">
+                    Don't have an account ?
+                  </Link>
+                </div>
+                <div className="col m6 right-align">
+                  <Link className="grey-text text-darken-2" to="/reset">
+                    Forgot password ?
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

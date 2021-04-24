@@ -10,19 +10,22 @@ import {
 const UserProfile = () => {
   const { profileId } = useParams();
   const dispatch = useDispatch();
-  
-  const reload = useSelector(state => state.entities.userProfile.reload)
+
+  const reload = useSelector((state) => state.entities.userProfile.reload);
 
   useEffect(() => {
     dispatch(userProfileLoad(profileId));
   }, [reload]);
 
-  const id = useSelector(state => state.entities.auth.token.user.id)
+  const id = useSelector((state) => state.entities.auth.token.user.id);
   const user = useSelector((state) => state.entities.userProfile.user);
   const posts = useSelector((state) => state.entities.userProfile.posts);
-  const followers = useSelector(state => state.entities.userProfile.followers)
-  const following = useSelector(state => state.entities.userProfile.following)
-
+  const followers = useSelector(
+    (state) => state.entities.userProfile.followers
+  );
+  const following = useSelector(
+    (state) => state.entities.userProfile.following
+  );
 
   return (
     <div className="container profile">
@@ -31,7 +34,7 @@ const UserProfile = () => {
           <div className="row">
             <div className="col m4 s10 offset-s2">
               <img
-                src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                src={user.pic}
                 alt="profile gallery"
                 className="profile-photo"
               />
@@ -45,7 +48,7 @@ const UserProfile = () => {
                 <div className="col m4 s4">{following.length} following</div>
               </div>
               <div className="row">
-              {followers.includes(id) ? (
+                {followers.includes(id) ? (
                   <button
                     className="col s12 m12 waves-effect waves-light btn #c51162 pink accent-4"
                     onClick={() => dispatch(userUnfollow(profileId))}

@@ -47,6 +47,11 @@ const Navbar = (props) => {
             {token && (
               <React.Fragment>
                 <li>
+                  <Link to="/followingpost" className="link">
+                    Following post
+                  </Link>
+                </li>
+                <li>
                   <Link to="/profile" className="link">
                     Profile
                   </Link>
