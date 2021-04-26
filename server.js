@@ -1,8 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
-const helmet = require('helmet')
-const cors = require('cors')
 const app = express()
 const authRoute = require('./routes/authRoute')
 const postRoute = require('./routes/postRoute')
@@ -12,8 +10,6 @@ require('dotenv').config()
 
 
 app.use(cookieParser())
-app.use(cors())
-app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
