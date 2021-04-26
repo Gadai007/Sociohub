@@ -6,6 +6,8 @@ const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 require("dotenv").config();
 
+const EMAIL = process.env.EMAIL || `http://localhost:3000`
+
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -125,7 +127,7 @@ const resetPassword = async (req, res) => {
                 from: ['imdebayandebnath007@gmail.com'],
                 subject: 'Reset Password',
                 html: `<h2>You requested for reset password</h2>
-                        <h3>Click this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password</h3>`
+                        <h3>Click this <a href="${EMAIL}/reset/${token}">link</a> to reset your password</h3>`
             })
             res.status(200).json('check your email')
         }else{

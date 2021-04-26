@@ -162,6 +162,7 @@ const postDelete = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getPostById,
   createPost,
