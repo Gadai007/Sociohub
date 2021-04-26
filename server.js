@@ -7,9 +7,9 @@ const app = express()
 const authRoute = require('./routes/authRoute')
 const postRoute = require('./routes/postRoute')
 const userRoute = require('./routes/userRoute')
+const PORT = process.env.PORT || 5000
 require('dotenv').config()
 
-const PORT = process.env.PORT || 5000
 
 app.use(cookieParser())
 app.use(cors())
