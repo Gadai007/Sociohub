@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 const app = express()
 const authRoute = require('./routes/authRoute')
 const postRoute = require('./routes/postRoute')
@@ -21,11 +22,14 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useCreateIndex:
 }).catch(err => console.log(err))
 
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
-
 app.use('/api', authRoute)
 app.use('/api', postRoute)
 app.use('/api', userRoute)
+
+if (process.env.NODE_ENV === 'production') {
+    // app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname+'/client/build/index.html'));
+      });
+}
 
