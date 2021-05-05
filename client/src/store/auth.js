@@ -10,6 +10,10 @@ const slice = createSlice({
         redirect: false
     },
     reducers: {
+        clearState: (auth, action)=> {
+            auth.error = ''
+            auth.redirect = false
+        },
         signup: (auth, action) => {
             auth.user = action.payload
         },
@@ -34,7 +38,7 @@ const slice = createSlice({
 
 export default slice.reducer
 
-export const { signup, signin, signout, signupfailed, signinfailed } = slice.actions
+export const { signup, signin, signout, signupfailed, signinfailed, clearState } = slice.actions
 
 export const userSignUp = ({ name, email, password, pic }) => apiCallBegan({
     url: `/api/signup`,

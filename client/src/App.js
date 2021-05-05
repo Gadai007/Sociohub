@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureStore from './store/store'
 import PrivateRoute from './helper/PrivateRoute'
@@ -13,8 +13,8 @@ import Error from './components/Error'
 import UserProfile from './components/UserProfile'
 import FollowingPosts from './components/FollowingPosts'
 import Reset from './components/Reset'
-import './App.css';
 import NewPassword from './components/NewPassword'
+import './App.css';
 
 const store = configureStore()
 
@@ -29,9 +29,9 @@ function App() {
         <PrivateRoute exact path='/followingpost' component={FollowingPosts}/>
         <Route exact path='/signup' component={Signup}/>
         <Route exact path='/signin' component={Signin}/>
+        <PrivateRoute exact path='/profile' component={Profile}/>
         <Route exact path='/reset' component={Reset}/>
         <Route exact path='/reset/:token' component={NewPassword}/>
-        <PrivateRoute exact path='/profile' component={Profile}/>
         <PrivateRoute exact path='/profile/:profileId' component={UserProfile}/>
         <PrivateRoute exact path='/createpost' component={CreatePost}/>
         <PrivateRoute  component={Error}/>
