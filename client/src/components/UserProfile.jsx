@@ -17,7 +17,7 @@ const UserProfile = () => {
     dispatch(userProfileLoad(profileId));
   }, [reload]);
 
-  const id = useSelector((state) => state.entities.auth.token.user.id);
+  const id = useSelector((state) => state.entities.auth.user.id);
   const user = useSelector((state) => state.entities.userProfile.user);
   const posts = useSelector((state) => state.entities.userProfile.posts);
   const followers = useSelector(
