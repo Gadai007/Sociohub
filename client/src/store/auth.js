@@ -4,8 +4,8 @@ import { apiCallBegan } from './apiActions'
 const slice = createSlice({
     name: 'auth',
     initialState: {
-        token: JSON.parse(localStorage.getItem('jwt')).token || null,
-        user: JSON.parse(localStorage.getItem('jwt')).user || {},
+        token: JSON.parse(localStorage.getItem('jwt'))?.token || null,
+        user: JSON.parse(localStorage.getItem('jwt'))?.user || {},
         error: '',
         redirect: false
     },
@@ -21,8 +21,8 @@ const slice = createSlice({
             auth.error = action.payload
         },
         signin: (auth, action) => {
-            auth.token = action.payload.token
             localStorage.setItem('jwt', JSON.stringify(action.payload))
+            auth.token = action.payload.token
             auth.user = action.payload.user
             auth.redirect = true
         },
