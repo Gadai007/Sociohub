@@ -31,6 +31,7 @@ const Signin = (props) => {
   }, [])
 
   useEffect(() => {
+    console.log('error: ', error, 'redirect: ', redirect, 'dispatch: ', dispatch, 'history: ', history)
     if (error !== "") {
       M.toast({ html: error, classes: "#b71c1c red darken-4" });
       dispatch(clearState())
@@ -38,7 +39,7 @@ const Signin = (props) => {
 
     if(redirect){
       dispatch(clearState())
-      return history.push('/profile')
+      history.push('/profile')
     }
   }, [error, redirect, dispatch, history]);
 

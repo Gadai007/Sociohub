@@ -12,7 +12,7 @@ const CreatePost = (props) => {
     photo: "",
   });
 
-  const name = useSelector((state) => state.entities.auth.token.user.name);
+  const name = useSelector((state) => state.entities.auth.user.name);
   const loading = useSelector((state) => state.entities.posts.loading);
   const responsePost = useSelector((state) => state.entities.posts.post.title);
   const error = useSelector((state) => state.entities.posts.error);

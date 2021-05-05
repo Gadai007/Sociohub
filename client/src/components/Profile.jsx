@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { myPostsLoad, postDelete } from "../store/posts";
 
 const Profile = () => {
-  const name = useSelector((state) => state.entities.auth.token.user.name);
-  const pic = useSelector((state) => state.entities.auth.token.user.pic);
-  const followers = useSelector(state => state.entities.auth.token.user.followers.length)
-  const following = useSelector(state => state.entities.auth.token.user.following.length)
+  const name = useSelector((state) => state.entities.auth.user.name);
+  const pic = useSelector((state) => state.entities.auth.user.pic);
+  const followers = useSelector(state => state.entities.auth.user.followers.length)
+  const following = useSelector(state => state.entities.auth.user.following.length)
   const posts = useSelector((state) => state.entities.posts.myPosts);
   
   const dispatch = useDispatch();
